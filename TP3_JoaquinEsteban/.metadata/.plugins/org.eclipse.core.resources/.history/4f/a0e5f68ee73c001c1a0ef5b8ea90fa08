@@ -5,15 +5,7 @@
 #include "parser.h"
 #include "joaquin.h"
 
-int altaEmpleado(LinkedList* pArrayListEmployee){
-	int retorno = 1;
-	if(pArrayListEmployee != NULL){
-		if(controller_addEmployee(pArrayListEmployee) == 0){
-			retorno = 0;
-		}
-	}
-	return retorno;
-}
+
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
  *
  * \param path char*

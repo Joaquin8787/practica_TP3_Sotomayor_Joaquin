@@ -43,7 +43,12 @@ int main()
             	mostrarEmpleados(listaEmpleados);
             	break;
             case 3:
-
+            	if(altaEmpleado(listaEmpleados) == 0){
+            		printf("Se puedo dar de alta el empleado con exito\n");
+            	}
+            	else{
+            		printf("No se pudo dar de alta el empleado\n");
+            	}
             break;
         }
     }while(option != 10);
