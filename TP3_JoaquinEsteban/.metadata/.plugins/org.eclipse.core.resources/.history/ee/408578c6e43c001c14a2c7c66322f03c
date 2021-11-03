@@ -64,9 +64,6 @@ int controller_addEmployee(LinkedList* pArrayListEmployee)
 		if(joaquin_getString(nombre,"Ingrese el nombre del empleado","ERROR!!!\n",138,10)==1
 		&&joaquin_getNumero(&horasTrabajadas,"Ingrese las horas trabajadas del empleado","ERROR!!!\n",1,300,10)==1
 		&&joaquin_getNumero(&sueldo,"Ingrese el sueldo del empleado","ERROR!!!\n",1,10000000,10)==1){
-
-			id =  ll_len(pArrayListEmployee);
-			id++;
 			nuevoEmpleado = employee_newParametrosCorrespondientes(&id,nombre,&horasTrabajadas,&sueldo);
 		}
 		if(nuevoEmpleado != NULL){
