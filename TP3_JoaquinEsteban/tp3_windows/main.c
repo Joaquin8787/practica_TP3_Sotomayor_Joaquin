@@ -42,7 +42,7 @@ int main()
             case 2:
             	mostrarEmpleados(listaEmpleados);
             	break;
-            case 2:
+            case 3:
 
             break;
         }

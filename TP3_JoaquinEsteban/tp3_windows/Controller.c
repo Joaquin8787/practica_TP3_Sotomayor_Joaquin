@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "LinkedList.h"
 #include "Employee.h"
+#include "parser.h"
+#include "joaquin.h"
 
 
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
@@ -50,16 +52,16 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListEmployee)
 int controller_addEmployee(LinkedList* pArrayListEmployee)
 {
 	int retorno = 1;
-	int* id;
-	char* nombre;
-	int* horasTrabajadas;
-	int* sueldo;
+	int id = 1000;
+	char nombre[128];
+	int horasTrabajadas;
+	int sueldo;
 	Employee* nuevoEmpleado;
 	if(pArrayListEmployee != NULL){
-		if(joaquin_getString(nombre,"Ingrese el nombre del empleado","ERROR!!!\n",138,10) == 1
-		&&joaquin_getNumero(horasTrabajadas,"Ingrese las horas trabajadas del empleado","ERROR!!!\n",1,300,10)==1
-		&&joaquin_getNumero(sueldo,"Ingrese el sueldo del empleado","ERROR!!!\n",1,10000000,10)==1){
-			nuevoEmpleado = employee_newParametrosCorrespondientes();
+		if(joaquin_getString(nombre,"Ingrese el nombre del empleado","ERROR!!!\n",138,10)==1
+		&&joaquin_getNumero(&horasTrabajadas,"Ingrese las horas trabajadas del empleado","ERROR!!!\n",1,300,10)==1
+		&&joaquin_getNumero(&sueldo,"Ingrese el sueldo del empleado","ERROR!!!\n",1,10000000,10)==1){
+			nuevoEmpleado = employee_newParametrosCorrespondientes(&id,nombre,&horasTrabajadas,&sueldo);
 		}
 		if(nuevoEmpleado != NULL){
 			ll_add(pArrayListEmployee, nuevoEmpleado);

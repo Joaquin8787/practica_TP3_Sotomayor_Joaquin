@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "Employee.h"
+
+
+
+
+Employee* employee_new(){
+	Employee retorno = NULL;
+	Employee nuevoEmpleado;
+	nuevoEmpleado = (Employee*)malloc(sizeof(Employee));
+	if(nuevoEmpleado != NULL){
+		nuevoEmpleado->id = 0;
+		strcpy(nuevoEmpleado->nombre, " ");
+		nuevoEmpleado->horasTrabajadas = 0;
+		nuevoEmpleado->sueldo = 0;
+		retorno = nuevoEmpleado;
+	}
+	return retorno;
+}
+
+Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr, char* sueldoStr){
+	Employee retorno = NULL;
+	Employee nuevoEmpleado;
+	if(idStr != NULL && nombreStr != NULL && horasTrabajadasStr != NULL && sueldoStr != NULL){
+		nuevoEmpleado = employee_new();
+		if(nuevoEmpleado != NULL){
+			nuevoEmpleado->id = atoi(idStr);
+			nuevoEmpleado->nombre = nombreStr;
+			nuevoEmpleado->horasTrabajadas = atoi(horasTrabajadasStr);
+		    nuevoEmpleado->sueldo = atoi(sueldoStr);
+		    retorno = nuevoEmpleado;
+		}
+	}
+	return retorno;
+}
+
+

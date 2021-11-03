@@ -1,0 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+Employee* employee_new();
+Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr, char* sueldoStr);
+
+
