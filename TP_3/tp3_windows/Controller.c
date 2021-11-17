@@ -40,11 +40,12 @@ int controller_loadFromText(char* path , LinkedList* pArrayListEmployee)
 	if(path != NULL && pArrayListEmployee != NULL){
 	auxP = fopen(path,"r");//LO LEO
 	if(auxP != NULL){
-		parser_EmployeeFromText(auxP ,pArrayListEmployee);
 
+		parser_EmployeeFromText(auxP ,pArrayListEmployee);
 		retorno = 0;
 	}
 	else{
+
 		printf("No se pudo leer el archivo");
 	}
 	fclose(auxP);
@@ -344,14 +345,17 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 		FILE* auxP;
 		if(pArrayListEmployee != NULL){
 		auxP = fopen(path,"w");//Lo abro para escritura
+		perror(path);
+
 		if(auxP != NULL){
+
 		parser_EmployeeWriteFromText(auxP,pArrayListEmployee);
 		retorno = 0;
 		}
 		else
-		  {
+		{
 		printf("No se pudo escribir en el archivo \n");
-		 }
+	    }
 		fclose(auxP);
 		}
 

@@ -27,7 +27,7 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 
 		    while(!feof(pFile)) //RECORRO HASTA QUE LEA CADA LINEA DEL ARCHIVO
 		        {
-		    	    printf("La direccion de memoria de pFile3 %p\n",pFile);
+
 		            cantidad = fscanf(pFile, "%[^,],%[^,],%[^,],%[^\n]\n", buffer1, buffer2, buffer3, buffer4);
 
 		            if( cantidad < 4){ //VERIFICO QUE HAYA PODIDO LEVANTAR CADA CAMPO
@@ -92,7 +92,6 @@ int parser_EmployeeWriteFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 		fprintf(pFile, "id,nombre,horasTrabajadas,sueldo\n");
 		for(int i = 0;i<ll_len(pArrayListEmployee);i++){
 			auxEmpleado = (Employee*) ll_get(pArrayListEmployee,i);
-			printf("%p \n",auxEmpleado);
 			if(auxEmpleado != NULL){
 
 				if(employee_getId(auxEmpleado,&id)==0 &&
