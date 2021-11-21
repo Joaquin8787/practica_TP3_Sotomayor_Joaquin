@@ -72,9 +72,18 @@ Employee* employee_newParametrosCorrespondientes(int* id,char* nombre,int* horas
 //MOSTRAR EMPLEADO
 int employee_showOneEmployee(Employee* auxEmpleado, int indice){
 	int retorno = 1;
-if(auxEmpleado != NULL && indice >=0){
+	int id;
+	char nombre[128];
+	int horasTrabajadas;
+	int sueldo;
 
-	printf("%-10d      %-20s       %-15d        %-10d \n",auxEmpleado->id,auxEmpleado->nombre,auxEmpleado->horasTrabajadas,auxEmpleado->sueldo);
+	if(auxEmpleado != NULL && indice >=0){
+		employee_getId(auxEmpleado,&id);
+		employee_getNombre(auxEmpleado,nombre);
+		employee_getHorasTrabajadas(auxEmpleado,&horasTrabajadas);
+		employee_getSueldo(auxEmpleado,&sueldo);
+
+	printf("%-10d      %-20s       %-15d        %-10d \n",id,nombre,horasTrabajadas,sueldo);
 	retorno = 0;
 }
 return retorno;
@@ -115,10 +124,10 @@ int employee_compareByNombre(void* employee1, void* employee2)
     if(employee1 != NULL && employee2 != NULL){
     	employee_getNombre((Employee*)employee1,nombre1);
     	employee_getNombre((Employee*)employee2,nombre2);
-	if(strcmp(nombre1,nombre2)>0){
+	if(strcmpi(nombre1,nombre2)>0){
 			retorno = -1;
 		}
-		else if(strcmp(nombre1,nombre2)<0){
+		else if(strcmpi(nombre1,nombre2)<0){
 			retorno = 1;
 		}
 		else{

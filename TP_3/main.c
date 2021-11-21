@@ -17,7 +17,7 @@
      8. Guardar los datos de los empleados en el archivo data.csv (modo texto).
      9. Guardar los datos de los empleados en el archivo data.csv (modo binario).
     10. Salir
-*****************************************************/
+ *****************************************************/
 
 int main()
 {
