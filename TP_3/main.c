@@ -49,7 +49,7 @@ int main()
 				}
 
 			}
-			if (controller_loadFromText("data.csv", listaEmpleados) == 0)
+			if (controller_loadFromText("data.csv", listaEmpleados))
 			{
 				printf("Se cargaron los datos de los empleados con exito!!! \n");
 				employee_getId(ll_get(listaEmpleados,(ll_len(listaEmpleados) - 1)),&idAutoincremental);
@@ -74,7 +74,7 @@ int main()
 				}
 
 			}
-			if(controller_loadFromBinary("data.bin",listaEmpleados) == 0)
+			if(controller_loadFromBinary("data.bin",listaEmpleados))
 			{
 				printf("Se cargaron los datos de los empleados con exito!!! \n");
 				employee_getId(ll_get(listaEmpleados,(ll_len(listaEmpleados)-1)),&idAutoincremental);
@@ -89,7 +89,7 @@ int main()
 			break;
 		case 3:
 			if(!ll_isEmpty(listaEmpleados)){
-				if(controller_addEmployee(listaEmpleados,&idAutoincremental)== 0){
+				if(controller_addEmployee(listaEmpleados,&idAutoincremental)){
 					printf("Se puedo dar de alta el empleado con exito\n");
 				}
 				else{
@@ -141,7 +141,7 @@ int main()
 			{
 				if (!ll_isEmpty(listaEmpleados))
 				{
-					if (controller_saveAsText("data.csv", listaEmpleados)== 0)
+					if (controller_saveAsText("data.csv", listaEmpleados))
 					{
 						printf("Guardado en modo texto con exito!!!\n");
 						flag1 = 0;
@@ -166,7 +166,7 @@ int main()
 			{
 				if (!ll_isEmpty(listaEmpleados))
 				{
-					if (controller_saveAsBinary("data.bin", listaEmpleados)== 0)
+					if (controller_saveAsBinary("data.bin", listaEmpleados))
 					{
 						printf("Guardado en modo binario con exito!!!\n");
 						flag2=0;

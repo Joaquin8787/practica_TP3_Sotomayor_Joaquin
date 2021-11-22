@@ -5,16 +5,28 @@
 #include "parser.h"
 #include "joaquin.h"
 
+/** \brief Libera el espacio en memoria apuntado por "this"
+ *
+ * \param this Employee*
+ * \return int retorna 0 si pudo y 1 si no lo logro
+ *
+ */
 int employee_delete(Employee* this)
 {
-    int retorno=0;
-    if(this!=NULL)
-    {
-        free(this);
-        retorno=1;
-    }
-    return retorno;
+	int retorno=1;
+	if(this!=NULL)
+	{
+		free(this);
+		retorno=0;
+	}
+	return retorno;
 }
+
+/** \brief asigna un lugar de la memoria dinamica para un elemento de tipo Employee y deja todos sus campos inicializados
+ *
+ * \return Employee* retorna un puntero al lugar de la memoria asignado o devuelve NULL si no lo logro
+ *
+ */
 Employee* employee_new(){
 	Employee* nuevoEmpleado = NULL;
 	nuevoEmpleado = (Employee*)malloc(sizeof(Employee));
@@ -28,6 +40,16 @@ Employee* employee_new(){
 	return nuevoEmpleado;
 }
 
+
+/** \brief reserva espacio de memoria dinamica para un elemento de tipo Employee cargando en todos sus campos los datos pasados como parametros en formato de cadena de caracteres
+ *
+ * \param idStr char*
+ * \param nombreStr char*
+ * \param horasTrabajadasStr char*
+ * \param sueldoStr char*
+ * \return Employee* retorna un puntero al lugar de la memoria asignado o devuelve NULL si no lo logro
+ *
+ */
 Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr, char* sueldoStr){
 	Employee* nuevoEmpleado = NULL;
 	if(idStr != NULL && nombreStr != NULL && horasTrabajadasStr != NULL && sueldoStr != NULL){
@@ -35,11 +57,10 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 		nuevoEmpleado = employee_new();
 
 		if(nuevoEmpleado != NULL){
-			if(employee_setId(nuevoEmpleado, atoi(idStr))==1||
-			employee_setNombre(nuevoEmpleado,nombreStr)==1||
-			employee_setHorasTrabajadas(nuevoEmpleado,atoi(horasTrabajadasStr))==1||
-			employee_setSueldo(nuevoEmpleado,atoi(sueldoStr))==1){
-				printf("NO SE PUDO CARGAR EL EMPLEADO PORQUE FALLO ALGUN SETTER\n"); //DEBUG
+			if(!employee_setId(nuevoEmpleado, atoi(idStr))||
+					!employee_setNombre(nuevoEmpleado,nombreStr)||
+					!employee_setHorasTrabajadas(nuevoEmpleado,atoi(horasTrabajadasStr))||
+					!employee_setSueldo(nuevoEmpleado,atoi(sueldoStr))){
 				employee_delete(nuevoEmpleado);
 				nuevoEmpleado = NULL;
 
@@ -49,82 +70,110 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 	}
 	return nuevoEmpleado;
 }
+
+/** \brief reserva espacio de memoria dinamica para un elemento de tipo Employee cargando en todos sus campos los datos pasados como parametros en los formatos correspondientes
+ *
+ * \param id int
+ * \param nombre char*
+ * \param horasTrabajadas int
+ * \param sueldo int
+ * \return Employee* retorna un puntero al lugar de la memoria asignado o devuelve NULL si no lo logro
+ *
+ */
 Employee* employee_newParametrosCorrespondientes(int* id,char* nombre,int* horasTrabajadas, int* sueldo){
 	Employee* nuevoEmpleado = NULL;
-		if(id != NULL && nombre != NULL && horasTrabajadas != NULL && sueldo != NULL){
-			nuevoEmpleado = employee_new();
-			if(nuevoEmpleado != NULL){
-				if(employee_setId(nuevoEmpleado,(*id))==1||
-				employee_setNombre(nuevoEmpleado,nombre)==1||
-				employee_setHorasTrabajadas(nuevoEmpleado,*horasTrabajadas)==1||
-				employee_setSueldo(nuevoEmpleado,*sueldo)==1){
+	if(id != NULL && nombre != NULL && horasTrabajadas != NULL && sueldo != NULL){
+		nuevoEmpleado = employee_new();
+		if(nuevoEmpleado != NULL){
+			if(!employee_setId(nuevoEmpleado,(*id))||
+					!employee_setNombre(nuevoEmpleado,nombre)||
+					!employee_setHorasTrabajadas(nuevoEmpleado,*horasTrabajadas)||
+					!employee_setSueldo(nuevoEmpleado,*sueldo)){
 
-					printf("NO SE PUDO CARGAR EL EMPLEADO PORQUE FALLO ALGUN SETTER\n"); //DEBUG
-					employee_delete(nuevoEmpleado);
-					nuevoEmpleado = NULL;
-				}
+				employee_delete(nuevoEmpleado);
+				nuevoEmpleado = NULL;
 			}
 		}
-		return nuevoEmpleado;
+	}
+	return nuevoEmpleado;
 
 }
 
-//MOSTRAR EMPLEADO
-int employee_showOneEmployee(Employee* auxEmpleado, int indice){
-	int retorno = 1;
+/** \brief Imprime por pantalla un unico empleado
+ *
+ * \param this Employee*
+ * \return int retorna 1 si pudo y 0 si no lo logro
+ *
+ */
+int employee_showOneEmployee(Employee* empleado){
+	int retorno = 0;
 	int id;
 	char nombre[128];
 	int horasTrabajadas;
 	int sueldo;
 
-	if(auxEmpleado != NULL && indice >=0){
-		employee_getId(auxEmpleado,&id);
-		employee_getNombre(auxEmpleado,nombre);
-		employee_getHorasTrabajadas(auxEmpleado,&horasTrabajadas);
-		employee_getSueldo(auxEmpleado,&sueldo);
+	if(empleado != NULL){
+		employee_getId(empleado,&id);
+		employee_getNombre(empleado,nombre);
+		employee_getHorasTrabajadas(empleado,&horasTrabajadas);
+		employee_getSueldo(empleado,&sueldo);
 
-	printf("%-10d      %-20s       %-15d        %-10d \n",id,nombre,horasTrabajadas,sueldo);
-	retorno = 0;
-}
-return retorno;
+		printf("%-10d      %-20s       %-15d        %-10d \n",id,nombre,horasTrabajadas,sueldo);
+		retorno = 1;
+	}
+	return retorno;
 }
 
 //FUNCIONES PARA COMPARAR
+
+/** \brief Compara a los empleados del LinkedList por sus Id
+ *
+ * \param empleado1 void*
+ * \param empleado2 void*
+ * \return int retorna 1 si el primer valor es mas grande, -1 si el segundo es mas grande o 0 si son iguales
+ *
+ */
 int employee_compareById(void* employee1, void* employee2)
 {
 	int retorno;
 	int id;
 	int id2;
 	if(employee1 != NULL && employee2 != NULL){
-
 		employee_getId((Employee*)employee1,&id);
 		employee_getId((Employee*)employee2,&id2);
 
 		if( id > id2)
 		{
-		retorno = -1;
+			retorno = -1;
 		}
 		else if(id < id2)
 		{
-		retorno = 1;
+			retorno = 1;
 		}
 		else
 		{
-		retorno = 0;
+			retorno = 0;
 		}
 	}
 
 	return retorno;
 }
+/** \brief Compara a los empleados del LinkedList por sus nombres
+ *
+ * \param empleado1 void*
+ * \param empleado2 void*
+ * \return int retorna 1 si el primer valor es mas grande, -1 si el segundo es mas grande o 0 si son iguales
+ *
+ */
 int employee_compareByNombre(void* employee1, void* employee2)
 {
 	int retorno;
 	char nombre1[128];
 	char nombre2[128];
-    if(employee1 != NULL && employee2 != NULL){
-    	employee_getNombre((Employee*)employee1,nombre1);
-    	employee_getNombre((Employee*)employee2,nombre2);
-	if(strcmpi(nombre1,nombre2)>0){
+	if(employee1 != NULL && employee2 != NULL){
+		employee_getNombre((Employee*)employee1,nombre1);
+		employee_getNombre((Employee*)employee2,nombre2);
+		if(strcmpi(nombre1,nombre2)>0){
 			retorno = -1;
 		}
 		else if(strcmpi(nombre1,nombre2)<0){
@@ -133,37 +182,52 @@ int employee_compareByNombre(void* employee1, void* employee2)
 		else{
 			retorno = 0;
 		}
-}
+	}
 
 	return retorno;
 }
+/** \brief Compara a los empleados del LinkedList por sus horas trabajadas
+ *
+ * \param empleado1 void*
+ * \param empleado2 void*
+ * \return int retorna 1 si el primer valor es mas grande, -1 si el segundo es mas grande o 0 si son iguales
+ *
+ */
 int employee_compareByHorasTrabajadas(void* employee1, void* employee2)
 {
 	int retorno;
 	int emp1;
 	int emp2;
-		if(employee1 != NULL && employee2 != NULL){
+	if(employee1 != NULL && employee2 != NULL){
 
-			employee_getHorasTrabajadas((Employee*)employee1,&emp1);
-			employee_getHorasTrabajadas((Employee*)employee2,&emp2);
+		employee_getHorasTrabajadas((Employee*)employee1,&emp1);
+		employee_getHorasTrabajadas((Employee*)employee2,&emp2);
 
-			if( emp1 > emp2)
-			{
+		if( emp1 > emp2)
+		{
 			retorno = -1;
-			}
-			else if(emp1 < emp2)
-			{
-			retorno = 1;
-			}
-			else
-			{
-			retorno = 0;
-			}
 		}
+		else if(emp1 < emp2)
+		{
+			retorno = 1;
+		}
+		else
+		{
+			retorno = 0;
+		}
+	}
 
 
 	return retorno;
 }
+
+/** \brief Compara a los empleados del LinkedList por su sueldo
+ *
+ * \param empleado1 void*
+ * \param empleado2 void*
+ * \return int retorna 1 si el primer valor es mas grande, -1 si el segundo es mas grande o 0 si son iguales
+ *
+ */
 int employee_compareBySueldo(void* employee1, void* employee2)
 {
 	int retorno;
@@ -173,18 +237,18 @@ int employee_compareBySueldo(void* employee1, void* employee2)
 		employee_getSueldo((Employee*)employee1,&emp1);
 		employee_getSueldo((Employee*)employee2,&emp2);
 
-					if( emp1 > emp2)
-					{
-					retorno = -1;
-					}
-					else if(emp1 < emp2)
-					{
-					retorno = 1;
-					}
-					else
-					{
-					retorno = 0;
-					}
+		if( emp1 > emp2)
+		{
+			retorno = -1;
+		}
+		else if(emp1 < emp2)
+		{
+			retorno = 1;
+		}
+		else
+		{
+			retorno = 0;
+		}
 
 	}
 
@@ -195,86 +259,86 @@ int employee_compareBySueldo(void* employee1, void* employee2)
 //SETTERS Y GETTERS
 int employee_setId(Employee* this, int id)
 {
-    int retorno=1;
-    if(this!=NULL && id>0)
-    {
-        this->id=id;
-        retorno=0;
-    }
-    return retorno;
+	int retorno=0;
+	if(this!=NULL && id>0)
+	{
+		this->id=id;
+		retorno=1;
+	}
+	return retorno;
 }
 
 int employee_getId(Employee* this, int* id)
 {
-    int retorno=1;
-    if(this!=NULL)
-    {
-        *id = this->id;
-        retorno=0;
-    }
-    return retorno;
+	int retorno=0;
+	if(this!=NULL)
+	{
+		*id = this->id;
+		retorno=1;
+	}
+	return retorno;
 }
 
 int employee_setNombre(Employee* this,char* nombre)
 {
-    int retorno=1;
-    if(this!=NULL && nombre!=NULL && strlen(nombre)>1 && strlen(nombre)<30)
-    {
-        strcpy(this->nombre,nombre);
+	int retorno=0;
+	if(this!=NULL && nombre!=NULL && strlen(nombre)>1 && strlen(nombre)<30)
+	{
+		strcpy(this->nombre,nombre);
 
-        retorno=0;
-    }
-    return retorno;
+		retorno=1;
+	}
+	return retorno;
 }
 int employee_getNombre(Employee* this,char* nombre)
 {
-    int retorno=1;
-    if(this!=NULL && nombre!=NULL)
-    {
-        strcpy(nombre,this->nombre);
-        retorno=0;
-    }
-    return retorno;
+	int retorno=0;
+	if(this!=NULL && nombre!=NULL)
+	{
+		strcpy(nombre,this->nombre);
+		retorno=1;
+	}
+	return retorno;
 }
 
 int employee_setHorasTrabajadas(Employee* this,int horasTrabajadas)
 {
-    int retorno=1;
-    if(this!=NULL && horasTrabajadas>=0)
-    {
-        this->horasTrabajadas=horasTrabajadas;
-        retorno=0;
-    }
-    return retorno;
+	int retorno=0;
+	if(this!=NULL && horasTrabajadas>=0)
+	{
+		this->horasTrabajadas=horasTrabajadas;
+		retorno=1;
+	}
+	return retorno;
 }
 int employee_getHorasTrabajadas(Employee* this,int* horasTrabajadas)
 {
-    int retorno=1;
-    if(this!=NULL && horasTrabajadas!=NULL)
-    {
-        *horasTrabajadas=this->horasTrabajadas;
-        retorno=0;
-    }
-    return retorno;
+	int retorno=0;
+	if(this!=NULL && horasTrabajadas!=NULL)
+	{
+		*horasTrabajadas=this->horasTrabajadas;
+		retorno=1;
+	}
+	return retorno;
 }
 
 int employee_setSueldo(Employee* this,int sueldo)
 {
-    int retorno=1;
-    if(this!=NULL && sueldo>0)
-    {
-        this->sueldo=sueldo;
-        retorno=0;
-    }
-    return retorno;
+	int retorno=0;
+	if(this!=NULL && sueldo>0)
+	{
+		this->sueldo=sueldo;
+		retorno=1;
+	}
+	return retorno;
 }
 int employee_getSueldo(Employee* this,int* sueldo)
 {
-    int retorno=1;
-    if(this!=NULL && sueldo!=NULL)
-    {
-        *sueldo=this->sueldo;
-        retorno=0;
-    }
-    return retorno;
+	int retorno=0;
+	if(this!=NULL && sueldo!=NULL)
+	{
+		*sueldo=this->sueldo;
+		retorno=1;
+	}
+	return retorno;
 }

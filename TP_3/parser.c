@@ -13,7 +13,7 @@
 
 int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 {
-	int retorno = 1;
+	int retorno = 0;
 	int cantidad;
 	char buffer1[1024];
 	char buffer2[1024];
@@ -37,7 +37,7 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 		            nuevoEmpleado = employee_newParametros(buffer1, buffer2,buffer3,buffer4);//CONSTRUYO UN NUEVO EMPLEADO
 		            if(nuevoEmpleado != NULL){
 		            ll_add(pArrayListEmployee, nuevoEmpleado);//AGREGO AL LINKEDLIST
-		            retorno = 0;
+		            retorno = 1;
 		            }
 		        }
 
@@ -54,7 +54,7 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
  */
 int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 {
-	int retorno = 1;
+	int retorno = 0;
 	int cantidad;
 	Employee auxEmpleado;
 	Employee* nuevoEmpleado;
@@ -73,7 +73,7 @@ int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 			            }
 
 			        }
-			    retorno = 0;
+			    retorno = 1;
 		}
     return retorno;
 }

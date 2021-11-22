@@ -16,10 +16,14 @@
 #include <ctype.h>
 #include <string.h>
 
-/// @brief imprime por pantalla una lista de opciones de informes, le pide al usuario que ingrese una opcion y la retorna
+/// @brief imprime por pantalla una lista de opciones de ordenamiento, le pide al usuario que ingrese una opcion y la retorna
 ///
 /// @return int retorna la opcion ingresada si puedo guardarla, devuelve -1 si no lo logro
 int menuOrdenamiento(void);
+
+/// @brief imprime por pantalla 2 opciones para el tipo de ordenamiento, le pide al usuario que ingrese una opcion y la retorna
+///
+/// @return int retorna 0 si la opcion ingresada fue "2", 1 si la opcion ingresada fue "1" y devuelve -1 si no lo logro
 int menuOrder(void);
 
 /// @brief imprime por pantalla una lista de opciones, le pide al usuario que ingrese una opcion y la guarda en una variable

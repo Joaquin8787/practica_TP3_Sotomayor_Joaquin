@@ -14,15 +14,13 @@ Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajad
 Employee* employee_newParametrosCorrespondientes(int* id,char* nombre,int* horasTrabajadas, int* sueldo);
 
 int employee_delete(Employee* this);
+int employee_showOneEmployee(Employee* auxEmpleado);
 
 //COMPARADORES
 int employee_compareById(void* employee1, void* employee2);
 int employee_compareByNombre(void* employee1, void* employee2);
 int employee_compareByHorasTrabajadas(void* employee1, void* employee2);
 int employee_compareBySueldo(void* employee1, void* employee2);
-
-
-int employee_showOneEmployee(Employee* auxEmpleado, int indice);
 
 //SETTERS Y GETTERS
 int employee_setId(Employee* this,int id);
